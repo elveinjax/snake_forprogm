@@ -4,279 +4,216 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Snake Challenge • Nokia Wall Wrap & Code Unlock</title>
+    <title>Snake Challenge â€¢ Nokia Wall Wrap & Code Unlock</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Orbitron:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* =============================================
+           NEO-MINIMAL THEME  Â·  Linear / Vercel / Raycast
+        ============================================= */
         :root {
-            --bg-dark: #080c14;
-            --panel-bg: rgba(16, 24, 40, 0.85);
-            --panel-border: #1e293b;
-            --accent-green: #10b981;
-            --accent-green-glow: rgba(16, 185, 129, 0.4);
-            --nokia-screen: #9bbc0f;
-            --nokia-dark: #0f380f;
-            --nokia-light: #8bac0f;
-            --apple-red: #ef4444;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --cyan-glow: #06b6d4;
-            --amber-accent: #f59e0b;
-            --font-main: 'Plus Jakarta Sans', sans-serif;
-            --font-arcade: 'Orbitron', monospace;
-            --font-code: 'Fira Code', monospace;
+            --bg:          #0a0a0a;
+            --surface:     #111111;
+            --surface-2:   #161616;
+            --border:      #222222;
+            --border-soft: #191919;
+            --accent:      #b6f700;
+            --accent-dim:  rgba(182, 247, 0, 0.1);
+            --accent-text: #0a0a0a;
+            --text:        #efefef;
+            --text-2:      #777777;
+            --text-3:      #3d3d3d;
+            --danger:      #ff4444;
+            --font-ui:     'Space Grotesk', system-ui, sans-serif;
+            --font-mono:   'JetBrains Mono', monospace;
+            --r-sm: 4px;
+            --r:    6px;
+            --r-lg: 10px;
         }
 
-        * {
+        *, *::before, *::after {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            user-select: none;
-            -webkit-user-select: none;
+            margin: 0; padding: 0;
+            user-select: none; -webkit-user-select: none;
         }
 
         body {
-            background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at 15% 20%, rgba(16, 185, 129, 0.08), transparent 40%),
-                radial-gradient(circle at 85% 80%, rgba(6, 182, 212, 0.08), transparent 40%),
-                linear-gradient(rgba(15, 23, 42, 0.9), rgba(8, 12, 20, 0.95));
-            color: var(--text-main);
-            font-family: var(--font-main);
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-ui);
+            font-size: 14px;
+            line-height: 1.5;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 16px;
+            justify-content: flex-start;
+            padding: 24px 16px 48px;
             overflow-x: hidden;
         }
 
-        /* Container */
+        /* â”€â”€ Container â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
         .app-container {
             width: 100%;
-            max-width: 1100px;
+            max-width: 1080px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            align-items: center;
+            gap: 16px;
         }
 
-        /* Top Header */
+        /* â”€â”€ Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
         .app-header {
             width: 100%;
-            background: var(--panel-bg);
-            border: 1px solid var(--panel-border);
-            backdrop-filter: blur(12px);
-            border-radius: 16px;
-            padding: 18px 24px;
+            border-bottom: 1px solid var(--border);
+            padding: 18px 0 14px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            flex-wrap: wrap;
             gap: 12px;
         }
 
         .header-title-box {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
         }
 
         .logo-icon {
-            width: 44px;
-            height: 44px;
-            background: linear-gradient(135deg, #10b981, #059669);
-            border-radius: 12px;
+            width: 30px; height: 30px;
+            background: var(--accent);
+            border-radius: var(--r-sm);
             display: grid;
             place-items: center;
-            box-shadow: 0 0 15px var(--accent-green-glow);
-            font-size: 22px;
+            font-size: 15px;
+            flex-shrink: 0;
         }
 
         .header-text h1 {
-            font-family: var(--font-arcade);
-            font-size: 1.35rem;
-            letter-spacing: 0.05em;
-            background: linear-gradient(90deg, #34d399, #38bdf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .header-text p {
+            font-family: var(--font-mono);
             font-size: 0.82rem;
-            color: var(--text-muted);
-        }
-
-        .badge-wrap {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            background: rgba(16, 185, 129, 0.12);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #34d399;
+            font-weight: 600;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            color: var(--text);
         }
 
-        .badge-pulse {
-            width: 8px;
-            height: 8px;
-            background-color: #10b981;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #10b981;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.4); opacity: 0.5; }
-        }
-
-        /* Layout Main Grid */
+        /* â”€â”€ Layout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
         .main-layout {
             width: 100%;
             display: grid;
-            grid-template-columns: 1.15fr 0.85fr;
-            gap: 20px;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 16px;
+            align-items: start;
         }
 
-        @media (max-width: 900px) {
-            .main-layout {
-                grid-template-columns: 1fr;
-            }
+        /* â”€â”€ Cards â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+        .game-card, .info-card, .code-vault-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-lg);
+            padding: 16px;
         }
 
-        /* Card Section */
         .game-card {
-            background: var(--panel-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 20px;
-            padding: 20px;
-            backdrop-filter: blur(16px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
             align-items: center;
-            position: relative;
         }
 
-        /* Theme Selector & Control Bar */
+        /* â”€â”€ Control Bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
         .control-bar {
             width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 10px;
-            flex-wrap: wrap;
         }
 
         .score-board {
             display: flex;
-            align-items: center;
-            gap: 16px;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 8px 16px;
-            border-radius: 12px;
+            align-items: stretch;
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            overflow: hidden;
         }
 
         .score-item {
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            padding: 6px 16px;
+            border-right: 1px solid var(--border);
         }
+        .score-item:last-child { border-right: none; }
 
         .score-label {
-            font-size: 0.68rem;
-            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            color: var(--text-3);
             text-transform: uppercase;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
         }
 
         .score-value {
-            font-family: var(--font-arcade);
-            font-size: 1.25rem;
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
             font-weight: 700;
-            color: #10b981;
+            color: var(--text);
         }
 
-        .target-highlight {
-            color: #f59e0b;
-        }
+        .target-highlight { color: var(--accent); }
 
-        .btn-group {
-            display: flex;
-            gap: 8px;
-        }
+        .btn-group { display: flex; gap: 6px; }
 
         .icon-btn {
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: var(--text-main);
-            padding: 8px 14px;
-            border-radius: 10px;
-            font-size: 0.82rem;
-            font-weight: 600;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-2);
+            padding: 6px 12px;
+            border-radius: var(--r);
+            font-family: var(--font-ui);
+            font-size: 0.76rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: color 0.12s, border-color 0.12s, background 0.12s;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
+            white-space: nowrap;
         }
 
-        .icon-btn:hover {
-            background: rgba(51, 65, 85, 0.9);
-            border-color: rgba(255, 255, 255, 0.25);
-            transform: translateY(-1px);
-        }
-
-        .icon-btn:active {
-            transform: translateY(0);
-        }
-
+        .icon-btn:hover { color: var(--text); border-color: var(--text-3); }
+        .icon-btn:active { opacity: 0.65; }
         .icon-btn.active {
-            background: rgba(16, 185, 129, 0.2);
-            border-color: #10b981;
-            color: #34d399;
+            color: var(--accent);
+            border-color: var(--accent);
+            background: var(--accent-dim);
         }
 
-        /* Nokia Screen Container */
+        /* â”€â”€ Arcade Frame â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
         .arcade-frame {
-            position: relative;
             width: 100%;
-            max-width: 440px;
-            background: #111827;
-            border-radius: 20px;
-            padding: 16px;
-            border: 3px solid #374151;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 10px 25px rgba(0,0,0,0.5);
+            max-width: 420px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .arcade-frame.nokia-style {
-            background: #283618;
-            border-color: #4a5d23;
+        .arcade-frame.nokia-style .screen-bezel {
+            background: #9bbc0f;
+            border-color: #304514;
         }
 
         .screen-bezel {
             width: 100%;
             position: relative;
             background: #000;
-            border-radius: 12px;
+            border-radius: var(--r);
             overflow: hidden;
-            border: 3px solid #1f2937;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.9);
+            border: 1px solid var(--border);
         }
 
         .screen-bezel.nokia-mode {
@@ -292,155 +229,134 @@
             image-rendering: pixelated;
         }
 
-        /* Canvas Overlay Message */
+        /* â”€â”€ Overlay â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
         .overlay-screen {
             position: absolute;
             inset: 0;
-            background: rgba(8, 12, 20, 0.88);
-            backdrop-filter: blur(6px);
+            background: rgba(10,10,10,0.93);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 24px;
             text-align: center;
-            gap: 12px;
-            transition: opacity 0.3s ease;
+            gap: 10px;
+            transition: opacity 0.2s;
             z-index: 10;
         }
 
-        .overlay-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
+        .overlay-screen.hidden { opacity: 0; pointer-events: none; }
 
         .overlay-title {
-            font-family: var(--font-arcade);
-            font-size: 1.4rem;
-            color: #38bdf8;
-            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+            font-family: var(--font-mono);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
         }
 
         .overlay-desc {
-            font-size: 0.88rem;
-            color: #cbd5e1;
-            max-width: 280px;
-            line-height: 1.4;
+            font-size: 0.8rem;
+            color: var(--text-2);
+            max-width: 260px;
+            line-height: 1.5;
         }
 
         .play-btn {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: #fff;
+            background: var(--accent);
+            color: var(--accent-text);
             border: none;
-            padding: 12px 28px;
-            border-radius: 12px;
-            font-family: var(--font-arcade);
-            font-size: 0.95rem;
+            padding: 10px 30px;
+            border-radius: var(--r);
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
             font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
             cursor: pointer;
-            box-shadow: 0 0 20px var(--accent-green-glow);
-            transition: all 0.2s ease;
+            transition: opacity 0.15s, transform 0.15s;
+            margin-top: 6px;
         }
 
-        .play-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
-        }
+        .play-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+        .play-btn:active { opacity: 1; transform: translateY(0); }
 
-
-
-        /* Mobile D-Pad Controls */
+        /* â”€â”€ D-Pad â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
         .dpad-container {
             display: grid;
             grid-template-columns: repeat(3, 46px);
             grid-template-rows: repeat(3, 46px);
-            gap: 6px;
-            margin-top: 4px;
+            gap: 4px;
         }
 
         .dpad-btn {
-            background: #1e293b;
-            border: 1px solid #334155;
-            color: var(--text-main);
-            border-radius: 10px;
-            font-size: 1.2rem;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            color: var(--text-2);
+            border-radius: var(--r);
+            font-size: 1rem;
             display: grid;
             place-items: center;
             cursor: pointer;
-            transition: background 0.15s ease;
+            transition: background 0.1s, color 0.1s, border-color 0.1s;
             touch-action: manipulation;
         }
 
         .dpad-btn:active {
-            background: #334155;
-            transform: scale(0.95);
+            background: var(--border);
+            color: var(--accent);
+            border-color: var(--accent);
         }
 
-        .dpad-up { grid-column: 2; grid-row: 1; }
-        .dpad-left { grid-column: 1; grid-row: 2; }
+        .dpad-up    { grid-column: 2; grid-row: 1; }
+        .dpad-left  { grid-column: 1; grid-row: 2; }
         .dpad-right { grid-column: 3; grid-row: 2; }
-        .dpad-down { grid-column: 2; grid-row: 3; }
+        .dpad-down  { grid-column: 2; grid-row: 3; }
 
-        /* Right Panel: Rules & Locked/Unlocked Code Container */
-        .side-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+        /* â”€â”€ Side Panel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+        .side-panel { display: flex; flex-direction: column; gap: 12px; }
 
-        .info-card {
-            background: var(--panel-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 20px;
-            padding: 20px;
-            backdrop-filter: blur(16px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-        }
-
+        /* â”€â”€ Info Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
         .info-card h2 {
-            font-size: 1.05rem;
-            font-family: var(--font-arcade);
-            color: #38bdf8;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--text-3);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .rules-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            gap: 0;
+            font-size: 0.82rem;
+            color: var(--text-2);
         }
 
         .rules-list li {
             display: flex;
             align-items: flex-start;
-            gap: 10px;
-            line-height: 1.4;
+            gap: 8px;
+            line-height: 1.5;
+            padding: 9px 0;
+            border-bottom: 1px solid var(--border-soft);
         }
+        .rules-list li:last-child { border-bottom: none; }
 
-        .rule-icon {
-            color: #10b981;
-            font-weight: bold;
-        }
+        .rule-icon { color: var(--accent); font-weight: 700; flex-shrink: 0; }
 
-        /* Locked Code Box */
+        /* â”€â”€ Code Vault â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
         .code-vault-card {
-            background: var(--panel-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 20px;
-            padding: 20px;
-            backdrop-filter: blur(16px);
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            gap: 12px;
         }
 
         .vault-status-header {
@@ -450,151 +366,143 @@
         }
 
         .vault-title {
-            font-family: var(--font-arcade);
-            font-size: 0.95rem;
-            color: #f59e0b;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .vault-title.unlocked {
-            color: #10b981;
-        }
-
-        .lock-indicator {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.72rem;
-            font-weight: 700;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--text-3);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            background: rgba(245, 158, 11, 0.15);
-            color: #f59e0b;
-            border: 1px solid rgba(245, 158, 11, 0.3);
-        }
-
-        .lock-indicator.unlocked {
-            background: rgba(16, 185, 129, 0.15);
-            color: #34d399;
-            border-color: rgba(16, 185, 129, 0.3);
-        }
-
-        /* Locked Teaser State */
-        .vault-locked-body {
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px dashed rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 12px;
-        }
-
-        .big-lock-icon {
-            font-size: 2.2rem;
-            opacity: 0.8;
-            filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.4));
-        }
-
-        .progress-bar-container {
-            width: 100%;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 5px;
-            overflow: hidden;
-            margin-top: 6px;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #10b981, #06b6d4);
-            border-radius: 5px;
-            transition: width 0.3s ease;
-        }
-
-        /* Code View Window (Shown upon Win or toggle) */
-        .code-editor-container {
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-            background: #090d16;
-            border: 1px solid #1e293b;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .code-editor-container.visible {
-            display: flex;
-        }
-
-        .code-top-bar {
-            background: #111827;
-            padding: 10px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #1e293b;
-        }
-
-        .code-filename {
-            font-family: var(--font-code);
-            font-size: 0.8rem;
-            color: #38bdf8;
+            letter-spacing: 0.12em;
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
+        .vault-title.unlocked { color: var(--accent); }
+
+        .lock-indicator {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 3px 8px;
+            border-radius: var(--r-sm);
+            border: 1px solid var(--border);
+            color: var(--text-3);
+        }
+
+        .lock-indicator.unlocked {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        /* â”€â”€ Vault Locked â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+        .vault-locked-body {
+            border: 1px dashed var(--border);
+            border-radius: var(--r);
+            padding: 28px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 10px;
+        }
+
+        .big-lock-icon { font-size: 1.6rem; opacity: 0.3; }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 2px;
+            background: var(--border);
+            border-radius: 1px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--accent);
+            transition: width 0.35s ease;
+        }
+
+        /* â”€â”€ Code Editor â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+        .code-editor-container {
+            display: none;
+            flex-direction: column;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            overflow: hidden;
+        }
+
+        .code-editor-container.visible { display: flex; }
+
+        .code-top-bar {
+            background: var(--surface-2);
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .code-filename {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-2);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
         .copy-code-btn {
-            background: #10b981;
-            color: #042f2e;
+            background: var(--accent);
+            color: var(--accent-text);
             border: none;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 0.78rem;
+            padding: 4px 12px;
+            border-radius: var(--r-sm);
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: opacity 0.15s;
             display: flex;
             align-items: center;
             gap: 4px;
         }
 
-        .copy-code-btn:hover {
-            background: #34d399;
-            box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
-        }
+        .copy-code-btn:hover { opacity: 0.82; }
 
         pre.code-block {
             margin: 0;
-            padding: 14px;
+            padding: 12px 14px;
             max-height: 380px;
             overflow-y: auto;
-            font-family: var(--font-code);
-            font-size: 0.78rem;
-            line-height: 1.5;
-            color: #e2e8f0;
-            background: #090d16;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            line-height: 1.65;
+            color: #666666;
+            background: var(--bg);
             tab-size: 2;
         }
 
-        /* Syntax Highlight Styles */
-        .kw-include { color: #f472b6; }
-        .kw-type { color: #38bdf8; }
-        .kw-var { color: #fbbf24; }
-        .kw-str { color: #a7f3d0; }
-        .kw-comment { color: #64748b; font-style: italic; }
+        pre.code-block::-webkit-scrollbar { width: 3px; }
+        pre.code-block::-webkit-scrollbar-track { background: transparent; }
+        pre.code-block::-webkit-scrollbar-thumb { background: var(--border); }
 
-        /* Modal Overlay for Task Completion */
+        /* â”€â”€ Syntax â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+        .kw-include { color: var(--accent); }
+        .kw-type    { color: #555555; }
+        .kw-var     { color: #aaaaaa; }
+        .kw-str     { color: #555555; }
+        .kw-comment { color: #333333; font-style: italic; }
+
+        /* â”€â”€ Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
         .modal-backdrop {
             position: fixed;
             inset: 0;
-            background: rgba(4, 7, 13, 0.85);
-            backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.82);
             z-index: 100;
             display: flex;
             align-items: center;
@@ -602,353 +510,121 @@
             padding: 20px;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.2s;
         }
 
-        .modal-backdrop.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .modal-backdrop.active { opacity: 1; pointer-events: auto; }
 
         .modal-window {
-            width: min(720px, 95vw);
+            width: min(700px, 95vw);
             max-height: 90vh;
-            background: #0f172a;
-            border: 2px solid #10b981;
-            border-radius: 24px;
-            box-shadow: 0 0 50px rgba(16, 185, 129, 0.3);
-            padding: 24px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-lg);
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            transform: scale(0.9);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            gap: 14px;
+            transform: translateY(14px);
+            transition: transform 0.25s cubic-bezier(0.16,1,0.3,1);
             overflow: hidden;
         }
 
-        .modal-backdrop.active .modal-window {
-            transform: scale(1);
-        }
+        .modal-backdrop.active .modal-window { transform: translateY(0); }
 
         .modal-header-banner {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.2));
-            border: 1px solid rgba(16, 185, 129, 0.4);
-            border-radius: 16px;
-            padding: 16px;
+            background: var(--accent-dim);
+            border: 1px solid var(--accent);
+            border-radius: var(--r);
+            padding: 14px;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
         }
 
         .modal-header-banner h2 {
-            font-family: var(--font-arcade);
-            font-size: 1.5rem;
-            color: #34d399;
-            text-shadow: 0 0 12px rgba(52, 211, 153, 0.5);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
         }
 
-        .modal-header-banner p {
-            font-size: 0.9rem;
-            color: #cbd5e1;
-        }
+        .modal-header-banner p { font-size: 0.8rem; color: var(--text-2); }
 
         .modal-actions {
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
-        /* Toast notification */
+        /* â”€â”€ Toast â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
         .toast {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: #10b981;
-            color: #022c22;
-            padding: 12px 20px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.88rem;
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+            bottom: 18px; right: 18px;
+            background: var(--surface);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 9px 16px;
+            border-radius: var(--r);
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            font-weight: 600;
             z-index: 200;
-            transform: translateY(100px);
+            transform: translateY(56px);
             opacity: 0;
-            transition: all 0.3s ease;
+            transition: all 0.22s ease;
         }
 
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
+        .toast.show { transform: translateY(0); opacity: 1; }
 
-        /* ======================================
-           RESPONSIVE: TABLET (max 900px)
-        ====================================== */
+        /* â”€â”€ Responsive: Tablet â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
         @media (max-width: 900px) {
-            body {
-                padding: 12px;
-                justify-content: flex-start;
-                padding-top: 16px;
-            }
-
-            .main-layout {
-                grid-template-columns: 1fr;
-                gap: 14px;
-            }
-
-            .game-card {
-                padding: 14px;
-            }
-
-            .arcade-frame {
-                max-width: 100%;
-            }
-
+            body { padding: 16px 12px 36px; }
+            .main-layout { grid-template-columns: 1fr; }
+            .arcade-frame { max-width: 100%; }
             .dpad-container {
                 grid-template-columns: repeat(3, 56px);
                 grid-template-rows: repeat(3, 56px);
-                gap: 8px;
             }
-
-            .dpad-btn {
-                font-size: 1.4rem;
-                border-radius: 12px;
-            }
-
-            .side-panel {
-                gap: 12px;
-            }
-
-            pre.code-block {
-                max-height: 260px;
-                font-size: 0.72rem;
-            }
-
-            .modal-window {
-                padding: 18px;
-                border-radius: 18px;
-                gap: 12px;
-            }
-
-            .modal-header-banner h2 {
-                font-size: 1.2rem;
-            }
+            pre.code-block { max-height: 240px; }
         }
 
-        /* ======================================
-           RESPONSIVE: PHONE (max 600px)
-        ====================================== */
+        /* â”€â”€ Responsive: Phone â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
         @media (max-width: 600px) {
-            body {
-                padding: 8px;
-                padding-top: 10px;
-            }
-
-            .app-container {
-                gap: 12px;
-            }
-
-            .app-header {
-                padding: 12px 14px;
-                border-radius: 12px;
-                gap: 8px;
-            }
-
-            .logo-icon {
-                width: 36px;
-                height: 36px;
-                font-size: 18px;
-                border-radius: 10px;
-            }
-
-            .header-text h1 {
-                font-size: 0.85rem;
-                letter-spacing: 0.03em;
-            }
-
-            .game-card {
-                padding: 10px;
-                border-radius: 14px;
-                gap: 10px;
-            }
-
-            .control-bar {
-                flex-wrap: nowrap;
-                justify-content: space-between;
-                gap: 8px;
-            }
-
-            .score-board {
-                padding: 6px 10px;
-                gap: 10px;
-                border-radius: 10px;
-            }
-
-            .score-value {
-                font-size: 1rem;
-            }
-
-            .score-label {
-                font-size: 0.6rem;
-            }
-
-            .btn-group {
-                gap: 6px;
-            }
-
-            .icon-btn {
-                padding: 7px 10px;
-                font-size: 0.74rem;
-                border-radius: 8px;
-                gap: 4px;
-            }
-
-            .arcade-frame {
-                padding: 10px;
-                border-radius: 14px;
-                gap: 10px;
-            }
-
-            .screen-bezel {
-                border-radius: 10px;
-            }
-
-            .overlay-title {
-                font-size: 1.1rem;
-            }
-
-            .overlay-desc {
-                font-size: 0.8rem;
-                max-width: 240px;
-            }
-
-            .play-btn {
-                padding: 10px 22px;
-                font-size: 0.82rem;
-                border-radius: 10px;
-            }
-
-            /* Bigger D-Pad on phones for easy touch */
+            body { padding: 12px 10px 28px; }
+            .app-container { gap: 12px; }
+            .app-header { padding: 12px 0 10px; }
+            .logo-icon { width: 26px; height: 26px; font-size: 13px; }
+            .header-text h1 { font-size: 0.72rem; }
+            .game-card { padding: 12px; gap: 10px; }
+            .score-item { padding: 5px 10px; }
+            .score-value { font-size: 1rem; }
+            .icon-btn { padding: 5px 9px; font-size: 0.7rem; }
             .dpad-container {
-                grid-template-columns: repeat(3, 64px);
-                grid-template-rows: repeat(3, 64px);
-                gap: 8px;
-                margin-top: 4px;
+                grid-template-columns: repeat(3, 62px);
+                grid-template-rows: repeat(3, 62px);
+                gap: 5px;
             }
-
-            .dpad-btn {
-                font-size: 1.5rem;
-                border-radius: 14px;
-            }
-
-            .info-card {
-                padding: 14px;
-                border-radius: 14px;
-            }
-
-            .info-card h2 {
-                font-size: 0.9rem;
-            }
-
-            .rules-list {
-                font-size: 0.8rem;
-                gap: 8px;
-            }
-
-            .code-vault-card {
-                padding: 14px;
-                border-radius: 14px;
-            }
-
-            .vault-title {
-                font-size: 0.82rem;
-            }
-
-            .lock-indicator {
-                font-size: 0.65rem;
-                padding: 3px 8px;
-            }
-
-            pre.code-block {
-                max-height: 200px;
-                font-size: 0.65rem;
-                padding: 10px;
-            }
-
-            .code-top-bar {
-                padding: 8px 12px;
-                flex-wrap: wrap;
-                gap: 8px;
-            }
-
-            .code-filename {
-                font-size: 0.7rem;
-            }
-
-            .copy-code-btn {
-                font-size: 0.7rem;
-                padding: 5px 10px;
-            }
-
-            /* Modal on small phones */
-            .modal-window {
-                padding: 14px;
-                border-radius: 16px;
-                gap: 10px;
-                max-height: 92vh;
-                overflow-y: auto;
-            }
-
-            .modal-header-banner {
-                padding: 12px;
-                border-radius: 12px;
-            }
-
-            .modal-header-banner h2 {
-                font-size: 1rem;
-            }
-
-            .modal-header-banner p {
-                font-size: 0.78rem;
-            }
-
-            .modal-actions {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .toast {
-                bottom: 14px;
-                right: 14px;
-                left: 14px;
-                text-align: center;
-                font-size: 0.82rem;
-                padding: 10px 16px;
-            }
+            .dpad-btn { font-size: 1.1rem; }
+            pre.code-block { max-height: 180px; font-size: 0.62rem; }
+            .modal-window { padding: 14px; gap: 10px; max-height: 92vh; overflow-y: auto; }
+            .modal-header-banner h2 { font-size: 0.82rem; }
+            .toast { bottom: 10px; right: 10px; left: 10px; text-align: center; }
         }
 
-        /* ======================================
-           RESPONSIVE: SMALL PHONES (max 380px)
-        ====================================== */
+        /* â”€â”€ Responsive: Small Phones â”€â”€â”€â”€â”€ */
         @media (max-width: 380px) {
-            .header-text h1 {
-                font-size: 0.75rem;
-            }
-
+            .header-text h1 { font-size: 0.65rem; }
             .dpad-container {
-                grid-template-columns: repeat(3, 56px);
-                grid-template-rows: repeat(3, 56px);
+                grid-template-columns: repeat(3, 52px);
+                grid-template-rows: repeat(3, 52px);
             }
-
-            .dpad-btn {
-                font-size: 1.3rem;
-            }
-
-            .score-value {
-                font-size: 0.9rem;
-            }
+            .score-value { font-size: 0.88rem; }
         }
     </style>
 </head>
@@ -959,7 +635,7 @@
         <!-- Header -->
         <header class="app-header">
             <div class="header-title-box">
-                <div class="logo-icon">🐍</div>
+                <div class="logo-icon">ðŸ</div>
                 <div class="header-text">
                     <h1>SNAKE CODE UNLOCKER</h1>
                 </div>
@@ -984,10 +660,10 @@
 
                     <div class="btn-group">
                         <button class="icon-btn active" id="soundToggleBtn" title="Toggle Sound">
-                            <span id="soundIcon">🔊</span> Sound
+                            <span id="soundIcon">ðŸ”Š</span> Sound
                         </button>
                         <button class="icon-btn" id="themeToggleBtn" title="Switch LCD Theme">
-                            <span>🎨</span> Theme
+                            <span>ðŸŽ¨</span> Theme
                         </button>
                     </div>
                 </div>
@@ -1011,10 +687,10 @@
 
                     <!-- D-Pad Controls for Mobile/Touch -->
                     <div class="dpad-container">
-                        <button class="dpad-btn dpad-up" id="btnUp">▲</button>
-                        <button class="dpad-btn dpad-left" id="btnLeft">◄</button>
-                        <button class="dpad-btn dpad-right" id="btnRight">►</button>
-                        <button class="dpad-btn dpad-down" id="btnDown">▼</button>
+                        <button class="dpad-btn dpad-up" id="btnUp">â–²</button>
+                        <button class="dpad-btn dpad-left" id="btnLeft">â—„</button>
+                        <button class="dpad-btn dpad-right" id="btnRight">â–º</button>
+                        <button class="dpad-btn dpad-down" id="btnDown">â–¼</button>
                     </div>
                 </div>
             </section>
@@ -1023,18 +699,18 @@
             <section class="side-panel">
                 <!-- Info Rules Card -->
                 <div class="info-card">
-                    <h2>🎮 GAME RULES</h2>
+                    <h2>ðŸŽ® GAME RULES</h2>
                     <ul class="rules-list">
                         <li>
-                            <span class="rule-icon">✓</span>
+                            <span class="rule-icon">âœ“</span>
                             <span><strong>Wall Wrapping:</strong> Moving off any edge teleports the snake to the opposite side (Classic Nokia style).</span>
                         </li>
                         <li>
-                            <span class="rule-icon">✓</span>
+                            <span class="rule-icon">âœ“</span>
                             <span><strong>Target Goal:</strong> Collect <strong>15 apples</strong> without colliding with your own tail.</span>
                         </li>
                         <li>
-                            <span class="rule-icon">✓</span>
+                            <span class="rule-icon">âœ“</span>
                             <span><strong>Reward:</strong> Completing the task unlocks the official <strong>EVA Archive Node 2 Arduino C++ RFID Lock</strong> code!</span>
                         </li>
                     </ul>
@@ -1044,14 +720,14 @@
                 <div class="code-vault-card">
                     <div class="vault-status-header">
                         <div class="vault-title" id="vaultTitle">
-                            <span>🔐</span> CODE VAULT
+                            <span>ðŸ”</span> CODE VAULT
                         </div>
                         <div class="lock-indicator" id="lockIndicator">LOCKED (0/15)</div>
                     </div>
 
                     <!-- Locked Screen Teaser -->
                     <div class="vault-locked-body" id="vaultLockedBody">
-                        <div class="big-lock-icon">🔒</div>
+                        <div class="big-lock-icon">ðŸ”’</div>
                         <p style="font-size: 0.88rem; color: var(--text-muted);">
                             Reach a score of <strong>15</strong> in Snake to unlock the code.
                         </p>
@@ -1064,10 +740,10 @@
                     <div class="code-editor-container" id="codeEditorContainer">
                         <div class="code-top-bar">
                             <div class="code-filename">
-                                <span>📄</span> EVA_Node2_RFID_Lock.ino
+                                <span>ðŸ“„</span> EVA_Node2_RFID_Lock.ino
                             </div>
                             <button class="copy-code-btn" id="copyCodeBtnSide">
-                                📋 Copy Code
+                                ðŸ“‹ Copy Code
                             </button>
                         </div>
                         <pre class="code-block" id="sideCodeBlock"></pre>
@@ -1081,17 +757,17 @@
     <div class="modal-backdrop" id="winModal">
         <div class="modal-window">
             <div class="modal-header-banner">
-                <h2>🎉 YOU COMPLETED THE TASK!</h2>
+                <h2>ðŸŽ‰ YOU COMPLETED THE TASK!</h2>
                 <p>Target Score of 15 Reached! Here is your unlocked Arduino RFID Code:</p>
             </div>
 
             <div class="code-editor-container visible" style="max-height: 420px;">
                 <div class="code-top-bar">
                     <div class="code-filename">
-                        <span>📄</span> EVA_Archive_Node2_RFID_Terminal.ino
+                        <span>ðŸ“„</span> EVA_Archive_Node2_RFID_Terminal.ino
                     </div>
                     <button class="copy-code-btn" id="copyModalCodeBtn">
-                        📋 Copy Unlocked Code
+                        ðŸ“‹ Copy Unlocked Code
                     </button>
                 </div>
                 <pre class="code-block" id="modalCodeBlock"></pre>
@@ -1099,7 +775,7 @@
 
             <div class="modal-actions">
                 <button class="icon-btn" id="downloadCodeBtn">
-                    💾 Download .ino
+                    ðŸ’¾ Download .ino
                 </button>
                 <button class="play-btn" id="closeModalPlayAgain">
                     PLAY AGAIN
@@ -1534,7 +1210,7 @@ void loop() {
 
                 // Unlock side vault
                 vaultTitle.classList.add("unlocked");
-                vaultTitle.innerHTML = "<span>🔓</span> CODE VAULT (UNLOCKED)";
+                vaultTitle.innerHTML = "<span>ðŸ”“</span> CODE VAULT (UNLOCKED)";
                 lockIndicator.classList.add("unlocked");
                 lockIndicator.textContent = "TASK COMPLETED";
                 vaultLockedBody.style.display = "none";
@@ -1633,11 +1309,11 @@ void loop() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
 
                 // Colors based on theme
-                const bgGrid = isNokiaTheme ? "#9bbc0f" : "#0a0f1d";
-                const lineGrid = isNokiaTheme ? "#8bac0f" : "rgba(255, 255, 255, 0.03)";
-                const snakeHeadColor = isNokiaTheme ? "#0f380f" : "#10b981";
-                const snakeBodyColor = isNokiaTheme ? "#304514" : "#059669";
-                const appleColor = isNokiaTheme ? "#0f380f" : "#ef4444";
+                const bgGrid = isNokiaTheme ? "#9bbc0f" : "#0a0a0a";
+                const lineGrid = isNokiaTheme ? "#8bac0f" : "#191919";
+                const snakeHeadColor = isNokiaTheme ? "#0f380f" : "#b6f700";
+                const snakeBodyColor = isNokiaTheme ? "#304514" : "#8abf00";
+                const appleColor = isNokiaTheme ? "#0f380f" : "#efefef";
 
                 // Background
                 ctx.fillStyle = bgGrid;
@@ -1660,10 +1336,6 @@ void loop() {
 
                 // Render Apple
                 ctx.fillStyle = appleColor;
-                if (!isNokiaTheme) {
-                    ctx.shadowColor = "#ef4444";
-                    ctx.shadowBlur = 10;
-                }
                 const applePadding = 3;
                 ctx.beginPath();
                 ctx.roundRect(
@@ -1671,23 +1343,17 @@ void loop() {
                     apple.y * CELL_SIZE + applePadding,
                     CELL_SIZE - (applePadding * 2),
                     CELL_SIZE - (applePadding * 2),
-                    isNokiaTheme ? 2 : 6
+                    isNokiaTheme ? 2 : 4
                 );
                 ctx.fill();
-                ctx.shadowBlur = 0; // reset glow
 
                 // Render Snake
                 snake.forEach((segment, idx) => {
                     const isHead = idx === 0;
                     ctx.fillStyle = isHead ? snakeHeadColor : snakeBodyColor;
-                    
-                    if (!isNokiaTheme && isHead) {
-                        ctx.shadowColor = "#10b981";
-                        ctx.shadowBlur = 8;
-                    }
 
                     const pad = 1.5;
-                    const r = isNokiaTheme ? 2 : (isHead ? 6 : 4);
+                    const r = isNokiaTheme ? 2 : (isHead ? 4 : 2);
                     
                     ctx.beginPath();
                     ctx.roundRect(
@@ -1698,7 +1364,6 @@ void loop() {
                         r
                     );
                     ctx.fill();
-                    ctx.shadowBlur = 0;
 
                     // Eyes for snake head
                     if (isHead) {
@@ -1850,7 +1515,7 @@ void loop() {
             // Sound Toggle
             soundToggleBtn.addEventListener("click", () => {
                 audioEnabled = !audioEnabled;
-                soundIcon.textContent = audioEnabled ? "🔊" : "🔇";
+                soundIcon.textContent = audioEnabled ? "ðŸ”Š" : "ðŸ”‡";
                 soundToggleBtn.classList.toggle("active", audioEnabled);
             });
 
