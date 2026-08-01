@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Snake Challenge • Nokia Wall Wrap & Code Unlock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Orbitron:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #080c14;
+            --panel-bg: rgba(16, 24, 40, 0.85);
+            --panel-border: #1e293b;
+            --accent-green: #10b981;
+            --accent-green-glow: rgba(16, 185, 129, 0.4);
+            --nokia-screen: #9bbc0f;
+            --nokia-dark: #0f380f;
+            --nokia-light: #8bac0f;
+            --apple-red: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --cyan-glow: #06b6d4;
+            --amber-accent: #f59e0b;
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+            --font-arcade: 'Orbitron', monospace;
+            --font-code: 'Fira Code', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(16, 185, 129, 0.08), transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(6, 182, 212, 0.08), transparent 40%),
+                linear-gradient(rgba(15, 23, 42, 0.9), rgba(8, 12, 20, 0.95));
+            color: var(--text-main);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            overflow-x: hidden;
+        }
+
+        /* Container */
+        .app-container {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        /* Top Header */
+        .app-header {
+            width: 100%;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .header-title-box {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            box-shadow: 0 0 15px var(--accent-green-glow);
+            font-size: 22px;
+        }
+
+        .header-text h1 {
+            font-family: var(--font-arcade);
+            font-size: 1.35rem;
+            letter-spacing: 0.05em;
+            background: linear-gradient(90deg, #34d399, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-text p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .badge-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #34d399;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-pulse {
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #10b981;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 0.5; }
+        }
+
+        /* Layout Main Grid */
+        .main-layout {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Card Section */
+        .game-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Theme Selector & Control Bar */
+        .control-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .score-board {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 12px;
+        }
+
+        .score-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .score-label {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .score-value {
+            font-family: var(--font-arcade);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .target-highlight {
+            color: #f59e0b;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .icon-btn:hover {
+            background: rgba(51, 65, 85, 0.9);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .icon-btn:active {
+            transform: translateY(0);
+        }
+
+        .icon-btn.active {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: #10b981;
+            color: #34d399;
+        }
+
+        /* Nokia Screen Container */
+        .arcade-frame {
+            position: relative;
+            width: 100%;
+            max-width: 440px;
+            background: #111827;
+            border-radius: 20px;
+            padding: 16px;
+            border: 3px solid #374151;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 10px 25px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .arcade-frame.nokia-style {
+            background: #283618;
+            border-color: #4a5d23;
+        }
+
+        .screen-bezel {
+            width: 100%;
+            position: relative;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 3px solid #1f2937;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.9);
+        }
+
+        .screen-bezel.nokia-mode {
+            background: #9bbc0f;
+            border-color: #304514;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            image-rendering: pixelated;
+        }
+
+        /* Canvas Overlay Message */
+        .overlay-screen {
+            position: absolute;
+            inset: 0;
+            background: rgba(8, 12, 20, 0.88);
+            backdrop-filter: blur(6px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            gap: 12px;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .overlay-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .overlay-title {
+            font-family: var(--font-arcade);
+            font-size: 1.4rem;
+            color: #38bdf8;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+
+        .overlay-desc {
+            font-size: 0.88rem;
+            color: #cbd5e1;
+            max-width: 280px;
+            line-height: 1.4;
+        }
+
+        .play-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-family: var(--font-arcade);
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 0 20px var(--accent-green-glow);
+            transition: all 0.2s ease;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
+        }
+
+
+
+        /* Mobile D-Pad Controls */
+        .dpad-container {
+            display: grid;
+            grid-template-columns: repeat(3, 46px);
+            grid-template-rows: repeat(3, 46px);
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .dpad-btn {
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: var(--text-main);
+            border-radius: 10px;
+            font-size: 1.2rem;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: background 0.15s ease;
+            touch-action: manipulation;
+        }
+
+        .dpad-btn:active {
+            background: #334155;
+            transform: scale(0.95);
+        }
+
+        .dpad-up { grid-column: 2; grid-row: 1; }
+        .dpad-left { grid-column: 1; grid-row: 2; }
+        .dpad-right { grid-column: 3; grid-row: 2; }
+        .dpad-down { grid-column: 2; grid-row: 3; }
+
+        /* Right Panel: Rules & Locked/Unlocked Code Container */
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .info-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .info-card h2 {
+            font-size: 1.05rem;
+            font-family: var(--font-arcade);
+            color: #38bdf8;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rules-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .rules-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.4;
+        }
+
+        .rule-icon {
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        /* Locked Code Box */
+        .code-vault-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(16px);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .vault-status-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .vault-title {
+            font-family: var(--font-arcade);
+            font-size: 0.95rem;
+            color: #f59e0b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .vault-title.unlocked {
+            color: #10b981;
+        }
+
+        .lock-indicator {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .lock-indicator.unlocked {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        /* Locked Teaser State */
+        .vault-locked-body {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 12px;
+        }
+
+        .big-lock-icon {
+            font-size: 2.2rem;
+            opacity: 0.8;
+            filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.4));
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #10b981, #06b6d4);
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+
+        /* Code View Window (Shown upon Win or toggle) */
+        .code-editor-container {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            background: #090d16;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .code-editor-container.visible {
+            display: flex;
+        }
+
+        .code-top-bar {
+            background: #111827;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .code-filename {
+            font-family: var(--font-code);
+            font-size: 0.8rem;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .copy-code-btn {
+            background: #10b981;
+            color: #042f2e;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .copy-code-btn:hover {
+            background: #34d399;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+        }
+
+        pre.code-block {
+            margin: 0;
+            padding: 14px;
+            max-height: 380px;
+            overflow-y: auto;
+            font-family: var(--font-code);
+            font-size: 0.78rem;
+            line-height: 1.5;
+            color: #e2e8f0;
+            background: #090d16;
+            tab-size: 2;
+        }
+
+        /* Syntax Highlight Styles */
+        .kw-include { color: #f472b6; }
+        .kw-type { color: #38bdf8; }
+        .kw-var { color: #fbbf24; }
+        .kw-str { color: #a7f3d0; }
+        .kw-comment { color: #64748b; font-style: italic; }
+
+        /* Modal Overlay for Task Completion */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 7, 13, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-backdrop.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-window {
+            width: min(720px, 95vw);
+            max-height: 90vh;
+            background: #0f172a;
+            border: 2px solid #10b981;
+            border-radius: 24px;
+            box-shadow: 0 0 50px rgba(16, 185, 129, 0.3);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow: hidden;
+        }
+
+        .modal-backdrop.active .modal-window {
+            transform: scale(1);
+        }
+
+        .modal-header-banner {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.2));
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .modal-header-banner h2 {
+            font-family: var(--font-arcade);
+            font-size: 1.5rem;
+            color: #34d399;
+            text-shadow: 0 0 12px rgba(52, 211, 153, 0.5);
+        }
+
+        .modal-header-banner p {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #10b981;
+            color: #022c22;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+            z-index: 200;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* ======================================
+           RESPONSIVE: TABLET (max 900px)
+        ====================================== */
+        @media (max-width: 900px) {
+            body {
+                padding: 12px;
+                justify-content: flex-start;
+                padding-top: 16px;
+            }
+
+            .main-layout {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .game-card {
+                padding: 14px;
+            }
+
+            .arcade-frame {
+                max-width: 100%;
+            }
+
+            .dpad-container {
+                grid-template-columns: repeat(3, 56px);
+                grid-template-rows: repeat(3, 56px);
+                gap: 8px;
+            }
+
+            .dpad-btn {
+                font-size: 1.4rem;
+                border-radius: 12px;
+            }
+
+            .side-panel {
+                gap: 12px;
+            }
+
+            pre.code-block {
+                max-height: 260px;
+                font-size: 0.72rem;
+            }
+
+            .modal-window {
+                padding: 18px;
+                border-radius: 18px;
+                gap: 12px;
+            }
+
+            .modal-header-banner h2 {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* ======================================
+           RESPONSIVE: PHONE (max 600px)
+        ====================================== */
+        @media (max-width: 600px) {
+            body {
+                padding: 8px;
+                padding-top: 10px;
+            }
+
+            .app-container {
+                gap: 12px;
+            }
+
+            .app-header {
+                padding: 12px 14px;
+                border-radius: 12px;
+                gap: 8px;
+            }
+
+            .logo-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+                border-radius: 10px;
+            }
+
+            .header-text h1 {
+                font-size: 0.85rem;
+                letter-spacing: 0.03em;
+            }
+
+            .game-card {
+                padding: 10px;
+                border-radius: 14px;
+                gap: 10px;
+            }
+
+            .control-bar {
+                flex-wrap: nowrap;
+                justify-content: space-between;
+                gap: 8px;
+            }
+
+            .score-board {
+                padding: 6px 10px;
+                gap: 10px;
+                border-radius: 10px;
+            }
+
+            .score-value {
+                font-size: 1rem;
+            }
+
+            .score-label {
+                font-size: 0.6rem;
+            }
+
+            .btn-group {
+                gap: 6px;
+            }
+
+            .icon-btn {
+                padding: 7px 10px;
+                font-size: 0.74rem;
+                border-radius: 8px;
+                gap: 4px;
+            }
+
+            .arcade-frame {
+                padding: 10px;
+                border-radius: 14px;
+                gap: 10px;
+            }
+
+            .screen-bezel {
+                border-radius: 10px;
+            }
+
+            .overlay-title {
+                font-size: 1.1rem;
+            }
+
+            .overlay-desc {
+                font-size: 0.8rem;
+                max-width: 240px;
+            }
+
+            .play-btn {
+                padding: 10px 22px;
+                font-size: 0.82rem;
+                border-radius: 10px;
+            }
+
+            /* Bigger D-Pad on phones for easy touch */
+            .dpad-container {
+                grid-template-columns: repeat(3, 64px);
+                grid-template-rows: repeat(3, 64px);
+                gap: 8px;
+                margin-top: 4px;
+            }
+
+            .dpad-btn {
+                font-size: 1.5rem;
+                border-radius: 14px;
+            }
+
+            .info-card {
+                padding: 14px;
+                border-radius: 14px;
+            }
+
+            .info-card h2 {
+                font-size: 0.9rem;
+            }
+
+            .rules-list {
+                font-size: 0.8rem;
+                gap: 8px;
+            }
+
+            .code-vault-card {
+                padding: 14px;
+                border-radius: 14px;
+            }
+
+            .vault-title {
+                font-size: 0.82rem;
+            }
+
+            .lock-indicator {
+                font-size: 0.65rem;
+                padding: 3px 8px;
+            }
+
+            pre.code-block {
+                max-height: 200px;
+                font-size: 0.65rem;
+                padding: 10px;
+            }
+
+            .code-top-bar {
+                padding: 8px 12px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .code-filename {
+                font-size: 0.7rem;
+            }
+
+            .copy-code-btn {
+                font-size: 0.7rem;
+                padding: 5px 10px;
+            }
+
+            /* Modal on small phones */
+            .modal-window {
+                padding: 14px;
+                border-radius: 16px;
+                gap: 10px;
+                max-height: 92vh;
+                overflow-y: auto;
+            }
+
+            .modal-header-banner {
+                padding: 12px;
+                border-radius: 12px;
+            }
+
+            .modal-header-banner h2 {
+                font-size: 1rem;
+            }
+
+            .modal-header-banner p {
+                font-size: 0.78rem;
+            }
+
+            .modal-actions {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .toast {
+                bottom: 14px;
+                right: 14px;
+                left: 14px;
+                text-align: center;
+                font-size: 0.82rem;
+                padding: 10px 16px;
+            }
+        }
+
+        /* ======================================
+           RESPONSIVE: SMALL PHONES (max 380px)
+        ====================================== */
+        @media (max-width: 380px) {
+            .header-text h1 {
+                font-size: 0.75rem;
+            }
+
+            .dpad-container {
+                grid-template-columns: repeat(3, 56px);
+                grid-template-rows: repeat(3, 56px);
+            }
+
+            .dpad-btn {
+                font-size: 1.3rem;
+            }
+
+            .score-value {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-title-box">
+                <div class="logo-icon">🐍</div>
+                <div class="header-text">
+                    <h1>SNAKE CODE UNLOCKER</h1>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Grid -->
+        <main class="main-layout">
+            <!-- Left Column: Arcade Canvas & Controls -->
+            <section class="game-card">
+                <div class="control-bar">
+                    <div class="score-board">
+                        <div class="score-item">
+                            <span class="score-label">Score</span>
+                            <span class="score-value" id="currentScore">00</span>
+                        </div>
+                        <div class="score-item">
+                            <span class="score-label">Target</span>
+                            <span class="score-value target-highlight">15</span>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button class="icon-btn active" id="soundToggleBtn" title="Toggle Sound">
+                            <span id="soundIcon">🔊</span> Sound
+                        </button>
+                        <button class="icon-btn" id="themeToggleBtn" title="Switch LCD Theme">
+                            <span>🎨</span> Theme
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Nokia Arcade Screen -->
+                <div class="arcade-frame" id="arcadeFrame">
+                    <div class="screen-bezel" id="screenBezel">
+                        <canvas id="snakeCanvas" width="400" height="400"></canvas>
+
+                        <!-- Start / Game Over Overlay -->
+                        <div class="overlay-screen" id="overlayScreen">
+                            <h2 class="overlay-title" id="overlayTitle">SNAKE CHALLENGE</h2>
+                            <p class="overlay-desc" id="overlayDesc">
+                                Pass through walls freely! Eat 15 apples to complete the task & reveal the terminal code.
+                            </p>
+                            <button class="play-btn" id="startBtn">START GAME</button>
+                        </div>
+                    </div>
+
+
+
+                    <!-- D-Pad Controls for Mobile/Touch -->
+                    <div class="dpad-container">
+                        <button class="dpad-btn dpad-up" id="btnUp">▲</button>
+                        <button class="dpad-btn dpad-left" id="btnLeft">◄</button>
+                        <button class="dpad-btn dpad-right" id="btnRight">►</button>
+                        <button class="dpad-btn dpad-down" id="btnDown">▼</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Column: Rules & Locked/Unlocked Code Panel -->
+            <section class="side-panel">
+                <!-- Info Rules Card -->
+                <div class="info-card">
+                    <h2>🎮 GAME RULES</h2>
+                    <ul class="rules-list">
+                        <li>
+                            <span class="rule-icon">✓</span>
+                            <span><strong>Wall Wrapping:</strong> Moving off any edge teleports the snake to the opposite side (Classic Nokia style).</span>
+                        </li>
+                        <li>
+                            <span class="rule-icon">✓</span>
+                            <span><strong>Target Goal:</strong> Collect <strong>15 apples</strong> without colliding with your own tail.</span>
+                        </li>
+                        <li>
+                            <span class="rule-icon">✓</span>
+                            <span><strong>Reward:</strong> Completing the task unlocks the official <strong>EVA Archive Node 2 Arduino C++ RFID Lock</strong> code!</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Code Vault Card -->
+                <div class="code-vault-card">
+                    <div class="vault-status-header">
+                        <div class="vault-title" id="vaultTitle">
+                            <span>🔐</span> CODE VAULT
+                        </div>
+                        <div class="lock-indicator" id="lockIndicator">LOCKED (0/15)</div>
+                    </div>
+
+                    <!-- Locked Screen Teaser -->
+                    <div class="vault-locked-body" id="vaultLockedBody">
+                        <div class="big-lock-icon">🔒</div>
+                        <p style="font-size: 0.88rem; color: var(--text-muted);">
+                            Reach a score of <strong>15</strong> in Snake to unlock the code.
+                        </p>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" id="progressBarFill"></div>
+                        </div>
+                    </div>
+
+                    <!-- Editor Box (Unlocks upon win) -->
+                    <div class="code-editor-container" id="codeEditorContainer">
+                        <div class="code-top-bar">
+                            <div class="code-filename">
+                                <span>📄</span> EVA_Node2_RFID_Lock.ino
+                            </div>
+                            <button class="copy-code-btn" id="copyCodeBtnSide">
+                                📋 Copy Code
+                            </button>
+                        </div>
+                        <pre class="code-block" id="sideCodeBlock"></pre>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- TASK COMPLETED MODAL WINDOW -->
+    <div class="modal-backdrop" id="winModal">
+        <div class="modal-window">
+            <div class="modal-header-banner">
+                <h2>🎉 YOU COMPLETED THE TASK!</h2>
+                <p>Target Score of 15 Reached! Here is your unlocked Arduino RFID Code:</p>
+            </div>
+
+            <div class="code-editor-container visible" style="max-height: 420px;">
+                <div class="code-top-bar">
+                    <div class="code-filename">
+                        <span>📄</span> EVA_Archive_Node2_RFID_Terminal.ino
+                    </div>
+                    <button class="copy-code-btn" id="copyModalCodeBtn">
+                        📋 Copy Unlocked Code
+                    </button>
+                </div>
+                <pre class="code-block" id="modalCodeBlock"></pre>
+            </div>
+
+            <div class="modal-actions">
+                <button class="icon-btn" id="downloadCodeBtn">
+                    💾 Download .ino
+                </button>
+                <button class="play-btn" id="closeModalPlayAgain">
+                    PLAY AGAIN
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Code copied to clipboard!</div>
+
+    <script>
+        (() => {
+            "use strict";
+
+            // Target C++ Code provided by user
+            const ARDUINO_CODE = `#include <SPI.h>
+#include <MFRC522.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SH110X.h>
+
+// ============================================================
+// EVA ARCHIVE: NODE 2 // MAIN TERMINAL LOCK
+// ============================================================
+
+// ---------------- OLED (SH1106) ----------------
+constexpr int SCREEN_WIDTH = 128;
+constexpr int SCREEN_HEIGHT = 64;
+constexpr int OLED_RESET = -1;
+constexpr uint8_t OLED_ADDR = 0x3C;
+Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+
+// ---------------- RC522 RFID ----------------
+constexpr uint8_t RFID_SS_PIN = 5;
+constexpr uint8_t RFID_RST_PIN = 27;
+MFRC522 mfrc522(RFID_SS_PIN, RFID_RST_PIN);
+
+// ---------------- GAME PASSWORD LOGIC ----------------
+constexpr byte TOKEN_BLOCK = 4;
+const char CARD_TOKEN[] = "123456"; 
+constexpr byte TOKEN_LENGTH = 6;
+
+// The reward shown on the screen when they win
+const char* NEXT_ROOM = "Room No: 3";
+const char* NEXT_CODE = "New password = TANCEI";
+
+// ---------------- TIMERS ----------------
+constexpr unsigned long MESSAGE_HOLD_MS = 4000; // Shows result for 4 seconds
+unsigned long messageTimestamp = 0;
+bool showingResult = false;
+
+// ============================================================
+// DISPLAY SCREENS
+// ============================================================
+
+void showIdleScreen() {
+  display.clearDisplay();
+  display.setTextColor(SH110X_WHITE);
+  display.setTextSize(1);
+  
+  display.setCursor(0, 0);
+  display.println(F("EVA_AI // OFFLINE"));
+  display.drawLine(0, 10, SCREEN_WIDTH - 1, 10, SH110X_WHITE);
+  
+  display.setCursor(0, 16); display.println(F("CRITICAL LOCKDOWN"));
+  display.setCursor(0, 26); display.println(F("Admin token missing."));
+  display.setCursor(0, 36); display.println(F("Facility doors LOCKED."));
+  
+  display.setCursor(0, 48); display.println(F("Awaiting programmed"));
+  display.setCursor(0, 56); display.println(F("recovery card..."));
+  
+  display.display();
+}
+
+// NEW ERROR SCREEN FOR UNFORMATTED TAGS OR BAD SCANS
+void showReadErrorScreen() {
+  display.clearDisplay();
+  display.setTextColor(SH110X_WHITE);
+  display.setTextSize(1);
+  
+  display.setCursor(0, 0);
+  display.println(F("EVA_AI // ERROR"));
+  display.drawLine(0, 10, SCREEN_WIDTH - 1, 10, SH110X_WHITE);
+  
+  display.setCursor(0, 24); display.println(F("READ FAILED"));
+  display.setCursor(0, 40); display.println(F("Wrong tag,"));
+  display.setCursor(0, 52); display.println(F("or try again."));
+  display.display();
+  
+  showingResult = true;
+  messageTimestamp = millis();
+}
+
+// ERROR SCREEN FOR THE WRONG PASSWORD
+void showRejectedScreen(int matched) {
+  display.clearDisplay();
+  display.setTextColor(SH110X_WHITE);
+  display.setTextSize(1);
+  
+  display.setCursor(0, 0);
+  display.println(F("EVA_AI // ERROR"));
+  display.drawLine(0, 10, SCREEN_WIDTH - 1, 10, SH110X_WHITE);
+  
+  display.setCursor(0, 18); display.println(F("ACCESS DENIED"));
+  display.setCursor(0, 30); display.println(F("Invalid Token Data."));
+  
+  // Show them how many characters they got right
+  display.setCursor(0, 44); display.print(F("Valid Bytes: "));
+  display.print(matched); display.print(F("/")); display.println(TOKEN_LENGTH);
+  
+  display.setCursor(0, 56); display.println(F("Rewrite Block 4."));
+  display.display();
+  
+  showingResult = true;
+  messageTimestamp = millis();
+}
+
+// SUCCESS SCREEN
+void showSuccessScreen() {
+  display.clearDisplay();
+  display.setTextColor(SH110X_WHITE);
+  display.setTextSize(1);
+  
+  display.setCursor(0, 0);
+  display.println(F("EVA_AI // ONLINE"));
+  display.drawLine(0, 10, SCREEN_WIDTH - 1, 10, SH110X_WHITE);
+  
+  display.setCursor(0, 16); display.println(F("LOCKDOWN OVERRIDDEN"));
+  display.setCursor(0, 26); display.println(F("Welcome, Admin."));
+  
+  display.setCursor(0, 42); display.println(NEXT_ROOM);
+  display.setCursor(0, 52); display.println(NEXT_CODE);
+  display.display();
+  
+  showingResult = true;
+  messageTimestamp = millis();
+}
+
+// ============================================================
+// RFID READING LOGIC
+// ============================================================
+
+int matchingTokenBytes(const byte* data) {
+  int matched = 0;
+  for (byte i = 0; i < TOKEN_LENGTH; i++) {
+    if (data[i] == static_cast<byte>(CARD_TOKEN[i])) matched++;
+  }
+  return matched;
+}
+
+bool readTokenBlock(byte* data, int& matched) {
+  MFRC522::MIFARE_Key key;
+  for (byte i = 0; i < 6; i++) key.keyByte[i] = 0xFF; // Factory default key
+
+  // Authenticate Block 4
+  MFRC522::StatusCode status = mfrc522.PCD_Authenticate(
+    MFRC522::PICC_CMD_MF_AUTH_KEY_A, TOKEN_BLOCK, &key, &(mfrc522.uid)
+  );
+  if (status != MFRC522::STATUS_OK) return false;
+
+  // Read Block 4
+  byte buffer[18];
+  byte bufferSize = sizeof(buffer);
+  status = mfrc522.MIFARE_Read(TOKEN_BLOCK, buffer, &bufferSize);
+  if (status != MFRC522::STATUS_OK) return false;
+
+  memcpy(data, buffer, 16);
+  matched = matchingTokenBytes(data);
+  return true;
+}
+
+// ============================================================
+// SETUP & LOOP
+// ============================================================
+
+void setup() {
+  Serial.begin(115200);
+  delay(400);
+
+  Wire.begin(21, 22);
+  delay(1000); 
+  
+  if (!display.begin(OLED_ADDR, true)) {
+    Serial.println(F("ERROR: OLED initialization failed."));
+    while (true) delay(1000);
+  }
+  
+  display.clearDisplay();
+  display.display();
+
+  SPI.begin();
+  mfrc522.PCD_Init();
+  
+  byte version = mfrc522.PCD_ReadRegister(mfrc522.VersionReg);
+  if (version == 0x00 || version == 0xFF) {
+    display.clearDisplay();
+    display.setCursor(0, 24); display.println(F("RFID HARDWARE ERROR"));
+    display.setCursor(0, 40); display.println(F("Check SPI wiring."));
+    display.display();
+    while (true) delay(1000);
+  }
+
+  showIdleScreen();
+}
+
+void loop() {
+  // Return to idle screen after message timer ends
+  if (showingResult && millis() - messageTimestamp >= MESSAGE_HOLD_MS) {
+    showingResult = false;
+    showIdleScreen();
+  }
+
+  // Look for new cards
+  if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) {
+    delay(20);
+    return;
+  }
+
+  byte data[16];
+  int matched = 0;
+  
+  if (!readTokenBlock(data, matched)) {
+    Serial.println(F("Failed to read card memory. Wrong tag or read error."));
+    showReadErrorScreen(); // <-- Triggers the new screen!
+  } else if (matched == TOKEN_LENGTH) {
+    Serial.println(F("Correct Admin Token presented!"));
+    showSuccessScreen();
+  } else {
+    Serial.println(F("Incorrect Token Data."));
+    showRejectedScreen(matched);
+  }
+
+  mfrc522.PICC_HaltA();
+  mfrc522.PCD_StopCrypto1();
+  delay(350);
+}`;
+
+            // DOM Elements
+            const canvas = document.getElementById("snakeCanvas");
+            const ctx = canvas.getContext("2d");
+            const currentScoreEl = document.getElementById("currentScore");
+            const overlayScreen = document.getElementById("overlayScreen");
+
+            const overlayTitle = document.getElementById("overlayTitle");
+            const overlayDesc = document.getElementById("overlayDesc");
+            const startBtn = document.getElementById("startBtn");
+
+            const soundToggleBtn = document.getElementById("soundToggleBtn");
+            const soundIcon = document.getElementById("soundIcon");
+            const themeToggleBtn = document.getElementById("themeToggleBtn");
+            const arcadeFrame = document.getElementById("arcadeFrame");
+            const screenBezel = document.getElementById("screenBezel");
+
+            const vaultTitle = document.getElementById("vaultTitle");
+            const lockIndicator = document.getElementById("lockIndicator");
+            const vaultLockedBody = document.getElementById("vaultLockedBody");
+            const progressBarFill = document.getElementById("progressBarFill");
+            const codeEditorContainer = document.getElementById("codeEditorContainer");
+            const sideCodeBlock = document.getElementById("sideCodeBlock");
+            const copyCodeBtnSide = document.getElementById("copyCodeBtnSide");
+
+            const winModal = document.getElementById("winModal");
+            const modalCodeBlock = document.getElementById("modalCodeBlock");
+            const copyModalCodeBtn = document.getElementById("copyModalCodeBtn");
+            const downloadCodeBtn = document.getElementById("downloadCodeBtn");
+            const closeModalPlayAgain = document.getElementById("closeModalPlayAgain");
+            const toast = document.getElementById("toast");
+
+            // Game Constants
+            const GRID_COUNT = 20;
+            const CELL_SIZE = canvas.width / GRID_COUNT; // 400 / 20 = 20px
+            const TARGET_SCORE = 15;
+
+            // Audio Context (Web Audio API)
+            let audioEnabled = true;
+            let audioCtx = null;
+
+            function initAudio() {
+                if (!audioCtx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) audioCtx = new AudioContext();
+                }
+                if (audioCtx && audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+            }
+
+            function playSound(type) {
+                if (!audioEnabled) return;
+                initAudio();
+                if (!audioCtx) return;
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+
+                if (type === 'eat') {
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(300, now);
+                    osc.frequency.exponentialRampToValueAtTime(600, now + 0.1);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                    osc.start(now);
+                    osc.stop(now + 0.1);
+                } else if (type === 'wrap') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(600, now);
+                    osc.frequency.exponentialRampToValueAtTime(200, now + 0.12);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.12);
+                    osc.start(now);
+                    osc.stop(now + 0.12);
+                } else if (type === 'gameover') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.linearRampToValueAtTime(110, now + 0.35);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } else if (type === 'win') {
+                    const notes = [261.63, 329.63, 392.00, 523.25, 659.25];
+                    notes.forEach((freq, i) => {
+                        const noteOsc = audioCtx.createOscillator();
+                        const noteGain = audioCtx.createGain();
+                        noteOsc.connect(noteGain);
+                        noteGain.connect(audioCtx.destination);
+
+                        noteOsc.type = 'triangle';
+                        noteOsc.frequency.setValueAtTime(freq, now + i * 0.08);
+                        noteGain.gain.setValueAtTime(0.2, now + i * 0.08);
+                        noteGain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.25);
+
+                        noteOsc.start(now + i * 0.08);
+                        noteOsc.stop(now + i * 0.08 + 0.25);
+                    });
+                }
+            }
+
+            // Game State
+            let snake = [];
+            let direction = { x: 1, y: 0 };
+            let nextDirection = { x: 1, y: 0 };
+            let apple = { x: 10, y: 10 };
+            let score = 0;
+            let highScore = localStorage.getItem("snake_high_score") || 0;
+            let gameLoopInterval = null;
+            let isPlaying = false;
+            let isNokiaTheme = false;
+            let taskCompleted = false;
+
+
+            // Format Code for syntax highlighting display
+            function escapeHTML(str) {
+                return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            }
+
+            function renderFormattedCode(code) {
+                const lines = code.split("\n");
+                return lines.map((line, idx) => {
+                    const lineNum = String(idx + 1).padStart(3, " ");
+                    let htmlLine = escapeHTML(line);
+                    
+                    // Simple syntax coloring
+                    if (htmlLine.startsWith("#include")) {
+                        htmlLine = htmlLine.replace(/(#include)(&lt;.*?&gt;)/, '<span class="kw-include">$1</span> <span class="kw-str">$2</span>');
+                    } else if (htmlLine.includes("//")) {
+                        const parts = htmlLine.split("//");
+                        htmlLine = parts[0] + '<span class="kw-comment">//' + parts.slice(1).join("//") + '</span>';
+                    }
+                    return `<span style="color: #475569; margin-right: 12px; user-select: none;">${lineNum}</span>${htmlLine}`;
+                }).join("\n");
+            }
+
+            const formattedCodeHTML = renderFormattedCode(ARDUINO_CODE);
+            sideCodeBlock.innerHTML = formattedCodeHTML;
+            modalCodeBlock.innerHTML = formattedCodeHTML;
+
+            // Spawn Apple
+            function spawnApple() {
+                while (true) {
+                    const x = Math.floor(Math.random() * GRID_COUNT);
+                    const y = Math.floor(Math.random() * GRID_COUNT);
+                    
+                    // Check not on snake body
+                    const collision = snake.some(segment => segment.x === x && segment.y === y);
+                    if (!collision) {
+                        apple = { x, y };
+                        break;
+                    }
+                }
+            }
+
+            // Init Game
+            function resetGame() {
+                snake = [
+                    { x: 5, y: 10 },
+                    { x: 4, y: 10 },
+                    { x: 3, y: 10 }
+                ];
+                direction = { x: 1, y: 0 };
+                nextDirection = { x: 1, y: 0 };
+                score = 0;
+                updateScoreDisplay();
+                spawnApple();
+            }
+
+            function updateScoreDisplay() {
+                currentScoreEl.textContent = String(score).padStart(2, "0");
+                const progressPct = Math.min(100, (score / TARGET_SCORE) * 100);
+                progressBarFill.style.width = `${progressPct}%`;
+                lockIndicator.textContent = `${taskCompleted ? 'UNLOCKED' : 'LOCKED'} (${score}/${TARGET_SCORE})`;
+            }
+
+            function triggerWin() {
+                isPlaying = false;
+                clearInterval(gameLoopInterval);
+                taskCompleted = true;
+
+                if (score > highScore) {
+                    highScore = score;
+                    localStorage.setItem("snake_high_score", highScore);
+                }
+
+
+                playSound('win');
+                updateScoreDisplay();
+
+                // Unlock side vault
+                vaultTitle.classList.add("unlocked");
+                vaultTitle.innerHTML = "<span>🔓</span> CODE VAULT (UNLOCKED)";
+                lockIndicator.classList.add("unlocked");
+                lockIndicator.textContent = "TASK COMPLETED";
+                vaultLockedBody.style.display = "none";
+                codeEditorContainer.classList.add("visible");
+
+                // Show Win Modal
+                winModal.classList.add("active");
+            }
+
+            function gameOver() {
+                isPlaying = false;
+                clearInterval(gameLoopInterval);
+                playSound('gameover');
+
+                if (score > highScore) {
+                    highScore = score;
+                    localStorage.setItem("snake_high_score", highScore);
+                }
+
+
+                overlayTitle.textContent = "GAME OVER";
+                overlayTitle.style.color = "#ef4444";
+                overlayDesc.innerHTML = `You reached a score of <strong>${score}</strong>.<br>Try again to hit ${TARGET_SCORE}!`;
+                startBtn.textContent = "TRY AGAIN";
+                overlayScreen.classList.remove("hidden");
+            }
+
+            // Core Game Loop
+            function gameStep() {
+                direction = { ...nextDirection };
+
+                let newHead = {
+                    x: snake[0].x + direction.x,
+                    y: snake[0].y + direction.y
+                };
+
+                // NOKIA WALL-WRAP MECHANIC (Pass through walls!)
+                let wrapped = false;
+                if (newHead.x < 0) {
+                    newHead.x = GRID_COUNT - 1;
+                    wrapped = true;
+                } else if (newHead.x >= GRID_COUNT) {
+                    newHead.x = 0;
+                    wrapped = true;
+                }
+
+                if (newHead.y < 0) {
+                    newHead.y = GRID_COUNT - 1;
+                    wrapped = true;
+                } else if (newHead.y >= GRID_COUNT) {
+                    newHead.y = 0;
+                    wrapped = true;
+                }
+
+                if (wrapped) {
+                    playSound('wrap');
+                }
+
+                // Tail collision check
+                const tailCollision = snake.some((segment, idx) => {
+                    // Don't collide with tail tip if moving
+                    if (idx === snake.length - 1) return false;
+                    return segment.x === newHead.x && segment.y === newHead.y;
+                });
+
+                if (tailCollision) {
+                    gameOver();
+                    return;
+                }
+
+                // Move snake
+                snake.unshift(newHead);
+
+                // Eat Apple check
+                if (newHead.x === apple.x && newHead.y === apple.y) {
+                    score++;
+                    playSound('eat');
+                    updateScoreDisplay();
+
+                    if (score >= TARGET_SCORE) {
+                        triggerWin();
+                        return;
+                    } else {
+                        spawnApple();
+                    }
+                } else {
+                    snake.pop();
+                }
+
+                render();
+            }
+
+            // Render Function
+            function render() {
+                // Clear Canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Colors based on theme
+                const bgGrid = isNokiaTheme ? "#9bbc0f" : "#0a0f1d";
+                const lineGrid = isNokiaTheme ? "#8bac0f" : "rgba(255, 255, 255, 0.03)";
+                const snakeHeadColor = isNokiaTheme ? "#0f380f" : "#10b981";
+                const snakeBodyColor = isNokiaTheme ? "#304514" : "#059669";
+                const appleColor = isNokiaTheme ? "#0f380f" : "#ef4444";
+
+                // Background
+                ctx.fillStyle = bgGrid;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Grid lines
+                ctx.strokeStyle = lineGrid;
+                ctx.lineWidth = 1;
+                for (let i = 0; i <= GRID_COUNT; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(i * CELL_SIZE, 0);
+                    ctx.lineTo(i * CELL_SIZE, canvas.height);
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(0, i * CELL_SIZE);
+                    ctx.lineTo(canvas.width, i * CELL_SIZE);
+                    ctx.stroke();
+                }
+
+                // Render Apple
+                ctx.fillStyle = appleColor;
+                if (!isNokiaTheme) {
+                    ctx.shadowColor = "#ef4444";
+                    ctx.shadowBlur = 10;
+                }
+                const applePadding = 3;
+                ctx.beginPath();
+                ctx.roundRect(
+                    apple.x * CELL_SIZE + applePadding,
+                    apple.y * CELL_SIZE + applePadding,
+                    CELL_SIZE - (applePadding * 2),
+                    CELL_SIZE - (applePadding * 2),
+                    isNokiaTheme ? 2 : 6
+                );
+                ctx.fill();
+                ctx.shadowBlur = 0; // reset glow
+
+                // Render Snake
+                snake.forEach((segment, idx) => {
+                    const isHead = idx === 0;
+                    ctx.fillStyle = isHead ? snakeHeadColor : snakeBodyColor;
+                    
+                    if (!isNokiaTheme && isHead) {
+                        ctx.shadowColor = "#10b981";
+                        ctx.shadowBlur = 8;
+                    }
+
+                    const pad = 1.5;
+                    const r = isNokiaTheme ? 2 : (isHead ? 6 : 4);
+                    
+                    ctx.beginPath();
+                    ctx.roundRect(
+                        segment.x * CELL_SIZE + pad,
+                        segment.y * CELL_SIZE + pad,
+                        CELL_SIZE - (pad * 2),
+                        CELL_SIZE - (pad * 2),
+                        r
+                    );
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+
+                    // Eyes for snake head
+                    if (isHead) {
+                        ctx.fillStyle = isNokiaTheme ? "#9bbc0f" : "#ffffff";
+                        const eyeOffset = 5;
+                        const eyeSize = 3;
+                        
+                        let eye1X = segment.x * CELL_SIZE + eyeOffset;
+                        let eye1Y = segment.y * CELL_SIZE + eyeOffset;
+                        let eye2X = segment.x * CELL_SIZE + CELL_SIZE - eyeOffset - eyeSize;
+                        let eye2Y = segment.y * CELL_SIZE + eyeOffset;
+
+                        if (direction.x === 1) { // right
+                            eye1X = segment.x * CELL_SIZE + CELL_SIZE - eyeOffset - eyeSize;
+                            eye2X = eye1X;
+                            eye1Y = segment.y * CELL_SIZE + eyeOffset;
+                            eye2Y = segment.y * CELL_SIZE + CELL_SIZE - eyeOffset - eyeSize;
+                        } else if (direction.x === -1) { // left
+                            eye1X = segment.x * CELL_SIZE + eyeOffset;
+                            eye2X = eye1X;
+                            eye1Y = segment.y * CELL_SIZE + eyeOffset;
+                            eye2Y = segment.y * CELL_SIZE + CELL_SIZE - eyeOffset - eyeSize;
+                        } else if (direction.y === 1) { // down
+                            eye1Y = segment.y * CELL_SIZE + CELL_SIZE - eyeOffset - eyeSize;
+                            eye2Y = eye1Y;
+                            eye1X = segment.x * CELL_SIZE + eyeOffset;
+                            eye2X = segment.x * CELL_SIZE + CELL_SIZE - eyeOffset - eyeSize;
+                        }
+
+                        ctx.fillRect(eye1X, eye1Y, eyeSize, eyeSize);
+                        ctx.fillRect(eye2X, eye2Y, eyeSize, eyeSize);
+                    }
+                });
+            }
+
+            // Controls
+            function handleKeyDown(e) {
+                if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "KeyW", "KeyA", "KeyS", "KeyD"].includes(e.code)) {
+                    e.preventDefault();
+                }
+
+                if (!isPlaying) return;
+
+                switch (e.code) {
+                    case "ArrowUp":
+                    case "KeyW":
+                        if (direction.y !== 1) nextDirection = { x: 0, y: -1 };
+                        break;
+                    case "ArrowDown":
+                    case "KeyS":
+                        if (direction.y !== -1) nextDirection = { x: 0, y: 1 };
+                        break;
+                    case "ArrowLeft":
+                    case "KeyA":
+                        if (direction.x !== 1) nextDirection = { x: -1, y: 0 };
+                        break;
+                    case "ArrowRight":
+                    case "KeyD":
+                        if (direction.x !== -1) nextDirection = { x: 1, y: 0 };
+                        break;
+                }
+            }
+
+            // Start Game Trigger
+            function startGame() {
+                initAudio();
+                resetGame();
+                overlayScreen.classList.add("hidden");
+                isPlaying = true;
+                clearInterval(gameLoopInterval);
+                gameLoopInterval = setInterval(gameStep, 110);
+            }
+
+            // Toast helper
+            function showToast(msg) {
+                toast.textContent = msg;
+                toast.classList.add("show");
+                setTimeout(() => {
+                    toast.classList.remove("show");
+                }, 2400);
+            }
+
+            // Copy Handler
+            function copyCodeToClipboard() {
+                navigator.clipboard.writeText(ARDUINO_CODE).then(() => {
+                    showToast("Code copied to clipboard!");
+                }).catch(err => {
+                    console.error("Copy failed", err);
+                });
+            }
+
+            // Download Handler
+            function downloadCodeFile() {
+                const blob = new Blob([ARDUINO_CODE], { type: "text/plain;charset=utf-8" });
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "EVA_Archive_Node2_RFID.ino";
+                link.click();
+                URL.revokeObjectURL(link.href);
+            }
+
+            // Event Listeners
+            startBtn.addEventListener("click", startGame);
+            window.addEventListener("keydown", handleKeyDown);
+
+            // D-Pad Touch Listeners
+            document.getElementById("btnUp").addEventListener("click", () => {
+                if (isPlaying && direction.y !== 1) nextDirection = { x: 0, y: -1 };
+            });
+            document.getElementById("btnDown").addEventListener("click", () => {
+                if (isPlaying && direction.y !== -1) nextDirection = { x: 0, y: 1 };
+            });
+            document.getElementById("btnLeft").addEventListener("click", () => {
+                if (isPlaying && direction.x !== 1) nextDirection = { x: -1, y: 0 };
+            });
+            document.getElementById("btnRight").addEventListener("click", () => {
+                if (isPlaying && direction.x !== -1) nextDirection = { x: 1, y: 0 };
+            });
+
+            // Touch Swipe on Canvas (phones / tablets)
+            let touchStartX = 0;
+            let touchStartY = 0;
+            canvas.addEventListener("touchstart", (e) => {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                e.preventDefault();
+            }, { passive: false });
+            canvas.addEventListener("touchend", (e) => {
+                if (!isPlaying) return;
+                const dx = e.changedTouches[0].clientX - touchStartX;
+                const dy = e.changedTouches[0].clientY - touchStartY;
+                const absDx = Math.abs(dx);
+                const absDy = Math.abs(dy);
+                const MIN_SWIPE = 20;
+                if (Math.max(absDx, absDy) < MIN_SWIPE) return;
+                if (absDx > absDy) {
+                    // Horizontal swipe
+                    if (dx > 0 && direction.x !== -1) nextDirection = { x: 1, y: 0 };
+                    else if (dx < 0 && direction.x !== 1) nextDirection = { x: -1, y: 0 };
+                } else {
+                    // Vertical swipe
+                    if (dy > 0 && direction.y !== -1) nextDirection = { x: 0, y: 1 };
+                    else if (dy < 0 && direction.y !== 1) nextDirection = { x: 0, y: -1 };
+                }
+                e.preventDefault();
+            }, { passive: false });
+
+
+            // Sound Toggle
+            soundToggleBtn.addEventListener("click", () => {
+                audioEnabled = !audioEnabled;
+                soundIcon.textContent = audioEnabled ? "🔊" : "🔇";
+                soundToggleBtn.classList.toggle("active", audioEnabled);
+            });
+
+            // Theme Toggle
+            themeToggleBtn.addEventListener("click", () => {
+                isNokiaTheme = !isNokiaTheme;
+                arcadeFrame.classList.toggle("nokia-style", isNokiaTheme);
+                screenBezel.classList.toggle("nokia-mode", isNokiaTheme);
+                themeToggleBtn.classList.toggle("active", isNokiaTheme);
+                render();
+            });
+
+            // Copy & Download Buttons
+            copyCodeBtnSide.addEventListener("click", copyCodeToClipboard);
+            copyModalCodeBtn.addEventListener("click", copyCodeToClipboard);
+            downloadCodeBtn.addEventListener("click", downloadCodeFile);
+
+            closeModalPlayAgain.addEventListener("click", () => {
+                winModal.classList.remove("active");
+                startGame();
+            });
+
+            // Initial render of empty canvas
+            resetGame();
+            render();
+        })();
+    </script>
+</body>
+
+</html>
